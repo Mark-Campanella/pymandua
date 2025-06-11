@@ -37,5 +37,5 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project.urls]
-homepage = "https://github.com/Mark-Campanella/Fox"
-repository = "https://github.com/Mark-Campanella/Fox"
+homepage = "https://github.com/Mark-Campanella/pymandua"
+repository = "https://github.com/Mark-Campanella/pymandua"
