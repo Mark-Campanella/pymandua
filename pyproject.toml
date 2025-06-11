@@ -23,8 +23,7 @@ keywords = [
     "LLM",
     "web scraping"
 ]
-readme = { file = "README.md" }
-
+readme = { file = "README.md", content-type = "text/markdown" }
 dependencies = [
     "beautifulsoup4",
     "selenium",
