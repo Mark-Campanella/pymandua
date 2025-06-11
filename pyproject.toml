@@ -29,7 +29,10 @@ dependencies = [
     "selenium-stealth",
     "requests",
     "undetectable_chromedriver",
-    "rapidfuzz"
+    "rapidfuzz",
+    "pandas",
+    "webdriver_manager",
+    "urllib3"
 ]
 
 [build-system]
