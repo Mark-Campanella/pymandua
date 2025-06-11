@@ -1,4 +1,6 @@
-<img src="midia/Pymandua.png"></img>
+<p align="center">
+  <img src="midia/Pymandua.png" alt="Pymandua Logo">
+</p>
 
 # Web Scraper with AI — HTML to Markdown for LLMs
 
