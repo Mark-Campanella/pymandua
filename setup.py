@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="fox",
+    name="pymandua",
     version="0.1.0",
     author="Marcos Henrique Maimoni Campanella",
     author_email="mhmcamp@gmail.com",

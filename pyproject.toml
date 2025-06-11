@@ -1,15 +1,41 @@
 [project]
-name = "html2mkd"
+name = "pymandua"
 version = "0.1.0"
-description = "Biblioteca para converter HTML de páginas em Markdown com ajuda de LLMs."
-authors = [{ name = "Seu Nome" }]
+description = "Uma biblioteca para scraping com lógica fuzzy e conversão de HTML e conteúdos ao seu redor, lidando com reatividade do javascript para Markdown focado em LLMs."
+authors = [{ name = "Marcos H. M. Campanella", email = "mhmcamp@gmail.com"}]
 requires-python = ">=3.7"
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+keywords = [
+    "scraping",
+    "fuzzy logic",
+    "HTML to Markdown",
+    "JavaScript reactivity",
+    "LLM",
+    "web scraping"
+]
+license-files = ["LICENSE"]
+readme = { file = "README.md" }
 dependencies = [
     "beautifulsoup4",
     "selenium",
+    "selenium-stealth",
+    "requests",
+    "undetectable_chromedriver",
     "rapidfuzz"
 ]
 
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project.urls]
+homepage = "https://github.com/Mark-Campanella/Fox"
+repository = "https://github.com/Mark-Campanella/Fox"
