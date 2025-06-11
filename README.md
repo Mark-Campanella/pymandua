@@ -2,9 +2,10 @@
   <img src="midia/Pymandua.png" alt="Pymandua Logo">
 </p>
 
-# Web Scraper with AI — HTML to Markdown for LLMs
+# Pymandua: Web Scraper para todos os websites 
+## Conversão de HTML para Markdown para pré-processamento de LLMs
 
-Este projeto é uma biblioteca Python que realiza Web Scraping inteligente com lógica fuzzy e converte páginas HTML em Markdown simplificado, ideal para Large Language Models (LLMs) e análises posteriores.
+Este projeto é uma biblioteca Python que realiza Web Scraping inteligente com lógica fuzzy e converte páginas HTML e conteúdos relacionados (como subpáginas e conteúdos renderizados com JS) em um Markdown simplificado, ideal para Large Language Models (LLMs) e análises posteriores.
 
 ---
 
@@ -27,14 +28,16 @@ O módulo utiliza o `undetected-chromedriver` e `selenium-stealth` com o ``selen
 
 ### 🧪 Lógica Fuzzy
 
-A comparação entre o conteúdo da página e as palavras-chave fornecidas é feita com `RapidFuzz`, utilizando similaridade textual (ex: token_sort_ratio). Isso permite validar se a página realmente trata do tema buscado, mesmo que o texto não seja exatamente igual.
+A comparação entre o conteúdo da página e as palavras-chave fornecidas é feita com `RapidFuzz`, utilizando similaridade textual (ex: token_sort_ratio). Isso permite validar se a página realmente trata do tema buscado, mesmo que o texto não seja exatamente igual, ou se existe alguns conteúdos ao seu redor (subpáginas e conteúdos criados a partir de reatividade com JavaScript) para capturar e consolidar em um único lugar.
 
 ---
 
 ## 🖼️ Fluxo do Processo
 
 
-<img src="midia/flowchart.png"></img>
+<p align="center">
+  <img src="midia/flowchart.png" alt="Fluxograma do Processo" style="background: white; padding: 8px; border-radius: 8px;">
+</p>
 
 
 ### 🧪 Instalação
