@@ -1,4 +1,4 @@
-# 🦊 Web Scraper with AI — HTML to Markdown for LLMs
+# Web Scraper with AI — HTML to Markdown for LLMs
 
 Este projeto é uma biblioteca Python que realiza Web Scraping inteligente com lógica fuzzy e converte páginas HTML em Markdown simplificado, ideal para Large Language Models (LLMs) e análises posteriores.
 
@@ -9,7 +9,7 @@ Este projeto é uma biblioteca Python que realiza Web Scraping inteligente com l
 - Web scraping automatizado com Selenium e suporte a páginas dinâmicas
 - Conversão precisa de HTML para Markdown limpo com suporte a:
   - Títulos, parágrafos, listas, links, tabelas, blocos de código, entre outros
-- Lógica de busca fuzzy para identificar se o conteúdo da página está relacionado às palavras-chave desejadas
+- Lógica de busca fuzzy para identificar se o conteúdo da página e páginas ao seu redor está relacionado às palavras-chave desejadas
 - Mecanismo de retorno automático de páginas visitadas
 - Pode ser utilizado como biblioteca ou como script principal
 
@@ -37,15 +37,15 @@ A comparação entre o conteúdo da página e as palavras-chave fornecidas é fe
 
 **Com pip**
 ```bash
-pip install fox
+pip install pymandua
 ```
 
 
 **Ou alternativamente**
 1. **Clone o repositório:**
 ```bash
-git clone https://github.com/seu-usuario/web-scraper-with-ai.git
-cd web-scraper-with-ai
+git clone https://github.com/Mark-Campanella/pymandua.git
+cd pymandua
 ```
 
 2. **Crie um ambiente virtual e ative:**
@@ -63,7 +63,7 @@ pip install -r requirements.txt
 
 ### 🔧 Uso como script
 ```python
-from fox import to_mkd
+from pymandua import to_mkd
 
 result = to_mkd(
     urls="https://pt.wikipedia.org/wiki/Luís_XIV_de_França",
@@ -83,7 +83,7 @@ to-mkd --urls "https://exemplo.com" --keywords "palavra1,palavra2" --output "sai
 
 ### 🧩 Estrutura do Projeto
 ```
-├── fox/                   # Módulo principal
+├── pymandua/              # Módulo principal
 │   ├── interface.py       # Interface principal do conversor
 │   ├── converter.py       # Conversor de HTML para Markdown
 │   ├── gatherer.py        # Web scraper e parser de conteúdo
@@ -98,7 +98,7 @@ to-mkd --urls "https://exemplo.com" --keywords "palavra1,palavra2" --output "sai
 ```
 
 **📚 Referências**
-[Selenium Docs](https://selenium-python.readthedocs.io)
-[BeautifulSoup Docs](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
-[RapidFuzz Docs](maxbachmann.github.io/RapidFuzz/)
-[RapidFuzz Examples](https://github.com/rapidfuzz/RapidFuzz#examples)
+- [Selenium Docs](https://selenium-python.readthedocs.io)
+- [BeautifulSoup Docs](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+- [RapidFuzz Docs](maxbachmann.github.io/RapidFuzz/)
+- [RapidFuzz Examples](https://github.com/rapidfuzz/RapidFuzz#examples)
