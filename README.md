@@ -1,3 +1,5 @@
+<img src="midia/Pymandua.png"></img>
+
 # Web Scraper with AI — HTML to Markdown for LLMs
 
 Este projeto é uma biblioteca Python que realiza Web Scraping inteligente com lógica fuzzy e converte páginas HTML em Markdown simplificado, ideal para Large Language Models (LLMs) e análises posteriores.
