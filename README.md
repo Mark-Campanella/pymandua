@@ -36,7 +36,7 @@ A comparação entre o conteúdo da página e as palavras-chave fornecidas é fe
 
 
 <p align="center">
-  <img src="midia/flowchart.png" alt="Fluxograma do Processo" style="background: black; padding: 8px; border-radius: 8px;">
+  <img src="midia/flowchart.png" alt="Fluxograma do Processo" style="background: white; padding: 8px; border-radius: 8px;">
 </p>
 
 
