@@ -1,4 +1,4 @@
-# html2mkd/_core.py
+# interface.py
 
 import os
 import time
@@ -12,7 +12,8 @@ from .cleaner       import Cleaner
 from .crawler       import Crawler
 from .aggregator    import Aggregator
 from .converter     import HTMLToMarkdownConverter
-
+from .ingest        import ingest_data, load_config
+from .app           import launch_app
 
 this_file = os.path.abspath(__file__)
 src_folder = os.path.dirname(this_file)           # “…/Web-Scraper-with-AI/src/fox”
@@ -137,3 +138,61 @@ def to_mkd(
 
     print(f"[html2mkd] Markdown file saved at: {full_path}")
     return markdown
+
+def start_rag_pipeline(
+    llm_model: Union[str, None] = None,
+    embedding_model: Union[str, None] = None,
+    active_provider: Union[str, None] = None,
+    active_vector_store: Union[str, None] = None,
+    persist_directory: Union[str, None] = None,
+    source_directory: Union[str, None] = None
+) -> None:
+    """
+    Starts the RAG pipeline using existing Markdown files.
+
+    This function is independent of the web scraping process. It takes existing
+    Markdown files, ingests them into a vector database, and launches the
+    Gradio UI for Q&A and table generation.
+    
+    The user can pass specific models as arguments, which will override the
+    defaults specified in the config.yaml file.
+    """
+    print("--- STARTING THE RAG PIPELINE ---")
+    
+    # Load default configurations from config.yaml
+    config = load_config()
+
+    # Override configurations with function arguments
+    if active_provider:
+        config["active_provider"] = active_provider
+    if active_vector_store:
+        config["active_vector_store"] = active_vector_store
+    if source_directory:
+        config["source_directory"] = source_directory
+    if persist_directory:
+        config["persist_directory"] = persist_directory
+
+    # Overriding LLM and Embedding models
+    if active_provider:
+        provider_config = config[active_provider]
+    else:
+        provider_config = config[config["active_provider"]]
+
+    if llm_model:
+        provider_config["llm_model"] = llm_model
+    if embedding_model:
+        provider_config["embedding_model"] = embedding_model
+
+    # A safety check for the source directory
+    if not os.path.exists(config["source_directory"]):
+        print(f"Error: The source directory '{config['source_directory']}' was not found.")
+        print("Please create the directory and add your .mkd files.")
+        return
+
+    print("\n--- 1. INGESTING MARKDOWN CONTENT ---")
+    ingest(config)
+
+    print("\n--- 2. LAUNCHING THE RAG SYSTEM UI ---")
+    launch_app(config)
+    
+    print("\n--- RAG PIPELINE COMPLETED ---")

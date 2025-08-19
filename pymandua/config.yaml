@@ -1,0 +1,48 @@
+# config.yaml
+
+source_directory: "output_md"
+persist_directory: "chroma_db"
+
+# Defina o provedor ativo aqui
+# Opções: "ollama", "openai", "gemini"
+active_provider: "ollama"
+
+# Configurações para o provedor Ollama
+ollama:
+  llm_model: "llama3-chatqa:8b"
+  embedding_model: "nomic-embed-text"
+
+# Configurações para o provedor OpenAI
+openai:
+  llm_model: "gpt-3.5-turbo"
+  embedding_model: "text-embedding-ada-002"
+
+# Configurações para o provedor Google Gemini
+gemini:
+  llm_model: "gemini-pro"
+  embedding_model: "models/embedding-001"
+
+# Defina o banco de dados vetorial ativo aqui
+# Opções: "chroma", "pinecone", "weaviate"
+active_vector_store: "chroma"
+
+# Configurações para o banco de dados vetorial ChromaDB
+chroma:
+  # O ChromaDB usa o 'persist_directory' definido acima
+
+# Configurações para o banco de dados vetorial Pinecone
+pinecone:
+  index_name: "your-pinecone-index-name"
+  api_key_env_var: "PINECONE_API_KEY"
+  environment_env_var: "PINECONE_ENVIRONMENT"
+
+# Configurações para o banco de dados vetorial Weaviate
+weaviate:
+  url: "https://your-instance.weaviate.network"
+  api_key_env_var: "WEAVIATE_API_KEY"
+  index_name: "MyDocuments" # Classe/nome do índice no Weaviate
+
+# Parâmetros para dividir o texto em chunks
+chunking:
+  chunk_size: 1000
+  chunk_overlap: 200
