@@ -5,9 +5,10 @@ from .cleaner       import Cleaner
 from .crawler       import Crawler
 from .aggregator    import Aggregator
 from .converter     import HTMLToMarkdownConverter
-
+from .ingest        import ingest_data, load_config
+from .app           import launch_app
 # Expose the to_mkd function at the package level:
-from .interface        import to_mkd
+from .interface        import to_mkd, start_rag_pipeline
 
 __all__ = [
     "Driver",
@@ -19,4 +20,5 @@ __all__ = [
     "Aggregator",
     "HTMLToMarkdownConverter",
     "to_mkd",
+    "start_rag_pipeline"
 ]

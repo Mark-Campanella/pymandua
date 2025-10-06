@@ -1,7 +1,7 @@
 [project]
 name = "pymandua"
-version = "0.1.0"
-description = "Uma biblioteca para scraping com lógica fuzzy e conversão de HTML e conteúdos ao seu redor, lidando com reatividade do javascript para Markdown focado em LLMs."
+version = "0.1.1"
+description = "Uma biblioteca para scraping com lógica fuzzy e conversão de HTML e conteúdos ao seu redor, lidando com reatividade do javascript para Markdown focado em LLMs. Adicionado com um pipeline RAG."
 authors = [
     { name = "Marcos H. M. Campanella", email = "mhmcamp@gmail.com" }
 ]
@@ -21,7 +21,9 @@ keywords = [
     "HTML to Markdown",
     "JavaScript reactivity",
     "LLM",
-    "web scraping"
+    "web scraping",
+    "RAG",
+    "retrieval-augmented generation",
 ]
 readme = { file = "README.md", content-type = "text/markdown" }
 dependencies = [
@@ -33,7 +35,10 @@ dependencies = [
     "rapidfuzz",
     "pandas",
     "webdriver-manager",
-    "urllib3"
+    "urllib3",
+    "langchain>=0.0.208",
+    "PyYAML",
+    "chromadb"
 ]
 
 [build-system]

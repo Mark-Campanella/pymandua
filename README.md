@@ -109,3 +109,76 @@ to-mkd --urls "https://exemplo.com" --keywords "palavra1,palavra2" --output "sai
 - [BeautifulSoup Docs](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 - [RapidFuzz Docs](maxbachmann.github.io/RapidFuzz/)
 - [RapidFuzz Examples](https://github.com/rapidfuzz/RapidFuzz#examples)
+
+----------
+
+### 🧠 RAG Pipeline (Análise com IA)
+Este projeto estende sua funcionalidade principal com um pipeline de Análise de Conteúdo usando `Retrieval-Augmented Generation (RAG)`. Ele permite que você use os arquivos Markdown gerados para consultas inteligentes, respondendo perguntas e gerando tabelas estruturadas sobre o conteúdo.
+
+### 🚀 Funcionalidades Chave do RAG
+- Modularidade "Plug & Play": Alterne facilmente entre diferentes provedores de LLM (``Ollama, OpenAI, Gemini``) e bancos de dados vetoriais (``ChromaDB, Pinecone``) com a simples alteração de um parâmetro.
+
+- Interface Web (UI): Uma interface interativa e amigável, criada com ``Gradio``, que se abre automaticamente no navegador para uma experiência de uso otimizada.
+
+- Geração de Tabelas: Peça ao LLM para extrair dados específicos e formatá-los em uma tabela Markdown com cabeçalhos personalizados, ideal para análise.
+
+### 🔧 Uso do Pipeline RAG
+O pipeline RAG é um processo separado da conversão de HTML para Markdown, permitindo que você use a biblioteca de forma modular.
+
+#### Passo 1: Gerar os Arquivos Markdown
+
+Primeiro, use a função ``to_mkd`` para gerar os arquivos Markdown no diretório de saída (configurado em ``config.yaml``). Seus arquivos .mkd servirão como a base de conhecimento para o sistema RAG.
+
+```python
+from pymandua import to_mkd
+
+# This will generate the .mkd files in the 'output' directory
+to_mkd(
+    urls=["https://pt.wikipedia.org/wiki/Luís_XIV_de_França"],
+    keywords=["Luís XIV"],
+    wait=2,
+    threshold=90
+)
+```
+### Passo 2: Iniciar o Pipeline RAG
+
+Em seguida, use a nova função ``start_rag_pipeline`` para processar os arquivos Markdown existentes e iniciar a interface de usuário. Você pode usar as configurações padrão do ``config.yaml`` ou sobrescrevê-las com parâmetros diretos para maior flexibilidade.
+
+```python
+from pymandua import start_rag_pipeline
+
+# Example 1: Use default settings from config.yaml
+start_rag_pipeline()
+
+
+# Example 2: Override models and providers via code
+start_rag_pipeline(
+    llm_model="llama3-chatqa:8b",
+    embedding_model="nomic-embed-text",
+    active_provider="ollama",
+    persist_directory="./my-rag-db"
+)
+
+```
+
+### 🖼️ Fluxo de Processo Completo
+O diagrama de fluxo do seu projeto agora é expandido para incluir o pipeline RAG, ilustrando o processo completo da web até a análise com IA.
+
+```mermaid
+graph TD
+    subgraph Web Scraping & Conversion
+        User[User] --> to_mkd(to_mkd);
+        to_mkd --> Output[output/];
+    end
+
+    subgraph RAG Pipeline
+        Output --> start_rag_pipeline(start_rag_pipeline);
+        start_rag_pipeline --> Ingest(Ingestion: Embeddings & Storage);
+        Ingest --> VectorDB[Vector Database ] ;
+        VectorDB --> Gradio[Gradio UI];
+        Gradio --> LLM(LLM);
+        Gradio --> VectorDB;
+    end
+
+    LLM --> Answers[Answers & Tables];
+```
