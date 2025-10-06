@@ -142,10 +142,12 @@ def to_mkd(
 def start_rag_pipeline(
     llm_model: Union[str, None] = None,
     embedding_model: Union[str, None] = None,
-    active_provider: Union[str, None] = None,
+    llm_provider: Union[str, None] = None,
+    embedding_provider: Union[str, None] = None,
     active_vector_store: Union[str, None] = None,
     persist_directory: Union[str, None] = None,
-    source_directory: Union[str, None] = None
+    source_directory: Union[str, None] = None,
+    config_path: str = "config.yaml"
 ) -> None:
     """
     Starts the RAG pipeline using existing Markdown files.
@@ -154,17 +156,15 @@ def start_rag_pipeline(
     Markdown files, ingests them into a vector database, and launches the
     Gradio UI for Q&A and table generation.
     
-    The user can pass specific models as arguments, which will override the
-    defaults specified in the config.yaml file.
+    The user can pass specific models and providers as arguments, which will
+    override the defaults specified in the config.yaml file.
     """
     print("--- STARTING THE RAG PIPELINE ---")
     
     # Load default configurations from config.yaml
-    config = load_config()
+    config = load_config(config_path)
 
-    # Override configurations with function arguments
-    if active_provider:
-        config["active_provider"] = active_provider
+    # Override base configurations with function arguments
     if active_vector_store:
         config["active_vector_store"] = active_vector_store
     if source_directory:
@@ -172,25 +172,29 @@ def start_rag_pipeline(
     if persist_directory:
         config["persist_directory"] = persist_directory
 
-    # Overriding LLM and Embedding models
-    if active_provider:
-        provider_config = config[active_provider]
-    else:
-        provider_config = config[config["active_provider"]]
-
+    # --- Override LLM and Embedding Providers/Models ---
+    # This is the main change to allow for flexibility.
+    
+    # Check for and override LLM provider and model
+    if llm_provider:
+        config["llm"]["provider"] = llm_provider
     if llm_model:
-        provider_config["llm_model"] = llm_model
+        config["llm"]["model"] = llm_model
+    
+    # Check for and override Embedding provider and model
+    if embedding_provider:
+        config["embeddings"]["provider"] = embedding_provider
     if embedding_model:
-        provider_config["embedding_model"] = embedding_model
+        config["embeddings"]["model"] = embedding_model
 
     # A safety check for the source directory
     if not os.path.exists(config["source_directory"]):
         print(f"Error: The source directory '{config['source_directory']}' was not found.")
-        print("Please create the directory and add your .mkd files.")
+        print("Please create the directory and add your .md files.")
         return
 
     print("\n--- 1. INGESTING MARKDOWN CONTENT ---")
-    ingest(config)
+    ingest_data(config)
 
     print("\n--- 2. LAUNCHING THE RAG SYSTEM UI ---")
     launch_app(config)

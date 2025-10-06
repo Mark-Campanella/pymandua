@@ -13,41 +13,75 @@ from langchain_community.vectorstores import Chroma
 # import weaviate
 
 def get_llm_and_embeddings(config):
-    provider = config["active_provider"]
-    provider_config = config[provider]
-    
-    providers_map = {
-        "ollama": {
-            "llm": Ollama(model=provider_config["llm_model"]),
-            "embeddings": OllamaEmbeddings(model=provider_config["embedding_model"])
-        },
-        "openai": {
-            "llm": ChatOpenAI(
-                model=provider_config["llm_model"],
-                openai_api_key=os.environ.get("OPENAI_API_KEY")
-            ),
-            "embeddings": OpenAIEmbeddings(
-                model=provider_config["embedding_model"],
-                openai_api_key=os.environ.get("OPENAI_API_KEY")
-            )
-        },
-        "gemini": {
-            "llm": ChatGoogleGenerativeAI(
-                model=provider_config["llm_model"],
-                google_api_key=os.environ.get("GEMINI_API_KEY")
-            ),
-            "embeddings": GoogleGenerativeAIEmbeddings(
-                model=provider_config["embedding_model"],
-                google_api_key=os.environ.get("GEMINI_API_KEY")
-            )
-        }
+    """
+    Initializes and returns LLM and Embedding models based on a flexible configuration.
+
+    Args:
+        config (dict): A configuration dictionary with separate 'llm' and 'embeddings'
+                       sections, each specifying its own provider and model.
+                       Example:
+                       {
+                           "llm": {"provider": "gemini", "model": "gemini-pro"},
+                           "embeddings": {"provider": "ollama", "model": "nomic-embed-text:latest"}
+                       }
+    Returns:
+        tuple: A tuple containing the initialized LLM and Embeddings objects.
+    """
+    # Define a mapping for LLM providers
+    llm_providers = {
+        "ollama": lambda model: Ollama(model=model),
+        "openai": lambda model: ChatOpenAI(
+            model=model,
+            openai_api_key=os.environ.get("OPENAI_API_KEY") # pyright: ignore[reportCallIssue]
+        ),
+        "gemini": lambda model: ChatGoogleGenerativeAI(
+            model=model,
+            google_api_key=os.environ.get("GOOGLE_API_KEY") # Corrected variable name for clarity
+        )
     }
 
-    if provider not in providers_map:
-        raise ValueError(f"Provedor '{provider}' não suportado. Escolha entre {list(providers_map.keys())}.")
-    
-    return providers_map[provider]["llm"], providers_map[provider]["embeddings"]
+    # Define a mapping for Embedding providers
+    embedding_providers = {
+        "ollama": lambda model: OllamaEmbeddings(model=model),
+        "openai": lambda model: OpenAIEmbeddings(
+            model=model,
+            openai_api_key=os.environ.get("OPENAI_API_KEY") # type: ignore
+        ),
+        "gemini": lambda model: GoogleGenerativeAIEmbeddings(
+            model=model,
+            google_api_key=os.environ.get("GOOGLE_API_KEY") # pyright: ignore[reportArgumentType]
+        )
+    }
 
+    # Retrieve LLM configuration
+    llm_config = config.get("llm")
+    if not llm_config or "provider" not in llm_config or "model" not in llm_config:
+        raise ValueError("LLM configuration is missing or malformed. Please specify 'provider' and 'model'.")
+    
+    llm_provider_name = llm_config["provider"]
+    llm_model_name = llm_config["model"]
+    
+    # Retrieve Embeddings configuration
+    embeddings_config = config.get("embeddings")
+    if not embeddings_config or "provider" not in embeddings_config or "model" not in embeddings_config:
+        raise ValueError("Embeddings configuration is missing or malformed. Please specify 'provider' and 'model'.")
+
+    embedding_provider_name = embeddings_config["provider"]
+    embedding_model_name = embeddings_config["model"]
+
+    # Validate and get LLM instance
+    if llm_provider_name not in llm_providers:
+        raise ValueError(f"LLM provider '{llm_provider_name}' is not supported. Choose from {list(llm_providers.keys())}.")
+    
+    llm = llm_providers[llm_provider_name](llm_model_name)
+
+    # Validate and get Embeddings instance
+    if embedding_provider_name not in embedding_providers:
+        raise ValueError(f"Embedding provider '{embedding_provider_name}' is not supported. Choose from {list(embedding_providers.keys())}.")
+    
+    embeddings = embedding_providers[embedding_provider_name](embedding_model_name)
+
+    return llm, embeddings
 
 def get_vector_store(config, texts, embeddings):
     """

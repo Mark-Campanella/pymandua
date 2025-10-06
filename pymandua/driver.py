@@ -5,7 +5,6 @@ A module to create a stealthy Chrome WebDriver instance for web scraping purpose
 Supports default anti-detection configurations and allows user-defined options, including proxy and user profile.
 
 Requirements:
-- undetected-chromedriver
 - selenium
 - selenium-stealth
 - python-dotenv
@@ -32,9 +31,10 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+
 
 import selenium_stealth
-import undetected_chromedriver as uc
 from typing import Optional, Dict, Any
 import time
 import random
@@ -58,13 +58,13 @@ class Driver:
         self.proxy = proxy
         self.user_profile = user_profile
 
-    def _default_options(self) -> uc.ChromeOptions:
+    def _default_options(self) -> ChromeOptions:
         """
         Configure default Chrome options for stealth browsing.
 
         :return: ChromeOptions object
         """
-        options = uc.ChromeOptions()
+        options = ChromeOptions()
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-blink-features=AutomationControlled")
@@ -104,7 +104,8 @@ class Driver:
         :return: Chrome WebDriver instance
         """
         options = self._default_options()
-        driver = uc.Chrome(driver_executable_path=ChromeDriverManager().install(), options=options)
+        service = Service(ChromeDriverManager().install())
+        driver = ChromeWebDriver(service=service, options=options)
 
         selenium_stealth.stealth(
             driver,

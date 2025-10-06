@@ -2,11 +2,14 @@
 import yaml
 from langchain.document_loaders import DirectoryLoader, TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+# Assuming these are your custom modules
 from provider_loader import get_llm_and_embeddings, get_vector_store
-def load_config(file_path="config.yaml"):
+
+def load_config(file_path: str):
+    """Loads configuration from a YAML file."""
     with open(file_path, "r") as file:
         return yaml.safe_load(file)
-    
+
 def ingest_data(config: dict):
     """
     Loads, splits, and embeds documents based on a given configuration.
@@ -36,15 +39,22 @@ def ingest_data(config: dict):
     texts = text_splitter.split_documents(documents)
     print(f"Total chunks generated: {len(texts)}")
 
-    _, embeddings = get_llm_and_embeddings(config)
+    # We only need the embeddings for this step. We must pass a correctly
+    # formatted config dictionary to get_llm_and_embeddings.
+    embeddings_config = config["embeddings"]
+    # The LLM config is not needed, so we can pass an empty dictionary for it.
+    llm_and_embeddings_config = {"llm": {}, "embeddings": embeddings_config}
+
+    _, embeddings = get_llm_and_embeddings(llm_and_embeddings_config)
 
     vectordb = get_vector_store(config, texts, embeddings)
     
-    print(f"Ingestion completed. Using {config['active_vector_store']} as vector store.")
+    # It's better to get the vector store provider from the new config structure
+    vector_store_provider = config["active_vector_store"]
+    print(f"Ingestion completed. Using {vector_store_provider} as vector store.")
 
 if __name__ == "__main__":
-    # to maintain its standalone functionality.
-    import yaml
-    with open("config.yaml", "r") as f:
-        cfg = yaml.safe_load(f)
+    # To maintain its standalone functionality, we define the path here.
+    config_path = "config.yaml"
+    cfg = load_config(config_path)
     ingest_data(cfg)

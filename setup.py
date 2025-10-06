@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="pymandua",
-    version="0.1.0",
+    version="0.1.1",
     author="Marcos Henrique Maimoni Campanella",
     author_email="mhmcamp@gmail.com",
-    description="Uma biblioteca para scraping com lógica fuzzy e conversão de HTML e conteúdos ao seu redor, lidando com reatividade do javascript para Markdown focado em LLMs.",
+    description="Uma biblioteca para scraping com lógica fuzzy e conversão de HTML e conteúdos ao seu redor, lidando com reatividade do javascript para Markdown focado em LLMs. Adicionado com um pipeline RAG.",
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/seuusuario/web-scraper-with-ai",
@@ -48,7 +48,9 @@ setup(
     "webdriver-manager==4.0.2",
     "websocket-client==1.8.0",
     "websockets==15.0.1",
-    "wsproto==1.2.0"
+    "wsproto==1.2.0",
+    "langchain>=0.0.208",
+    "PyYAML"
 ],
 
     classifiers=[
