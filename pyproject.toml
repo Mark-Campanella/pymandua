@@ -1,6 +1,6 @@
 [project]
 name = "pymandua"
-version = "0.1.1"
+version = "0.1.2"
 description = "Uma biblioteca para scraping com lógica fuzzy e conversão de HTML e conteúdos ao seu redor, lidando com reatividade do javascript para Markdown focado em LLMs. Adicionado com um pipeline RAG."
 authors = [
     { name = "Marcos H. M. Campanella", email = "mhmcamp@gmail.com" }
@@ -24,21 +24,25 @@ keywords = [
     "web scraping",
     "RAG",
     "retrieval-augmented generation",
+    "LangChain"
 ]
 readme = { file = "README.md", content-type = "text/markdown" }
 dependencies = [
-    "beautifulsoup4",
-    "selenium",
-    "selenium-stealth",
-    "requests",
-    "undetected-chromedriver",
-    "rapidfuzz",
-    "pandas",
-    "webdriver-manager",
-    "urllib3",
-    "langchain>=0.0.208",
-    "PyYAML",
-    "chromadb"
+    "beautifulsoup4>=4.14.0,<5.0.0",
+    "chromadb>=1.1.0,<2.0.0",
+    "gradio>=5.49.0,<6.0.0",
+    "langchain>=0.3.27,<0.4.0",
+    "langchain-chroma>=0.2.6,<0.3.0",
+    "langchain-community>=0.3.30,<0.4.0",
+    "langchain-core>=0.3.78,<0.4.0",
+    "langchain-google-genai>=2.1.12,<3.0.0",
+    "langchain-ollama>=0.3.10,<0.4.0",
+    "PyYAML>=6.0.3,<7.0.0",
+    "rapidfuzz>=3.14.1,<4.0.0",
+    "selenium>=4.36.0,<5.0.0",
+    "selenium-stealth>=1.0.6,<2.0.0",
+    "tqdm>=4.67.1,<5.0.0",
+    "webdriver-manager>=4.0.2,<5.0.0",
 ]
 
 [build-system]
