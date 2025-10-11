@@ -1,0 +1,14 @@
+classDiagram
+    class Crawler {
+        +driver: WebDriver
+        +gatherer: Gatherer
+        +keywords: list
+        +wait: float
+        +threshold: float
+        +_fuzzy_ratio(a: str, b: str): float
+        +_find_clickable_elements(): tuple
+        +crawl(): list
+    }
+
+    Crawler --> WebDriver : usa
+    Crawler --> Gatherer : usa para extrair HTML

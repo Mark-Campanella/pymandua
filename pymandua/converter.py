@@ -11,7 +11,7 @@ Usage:
 
 from bs4 import BeautifulSoup
 
-class HTMLToMarkdownConverter:
+class Converter:
     def __init__(self):
         pass
 

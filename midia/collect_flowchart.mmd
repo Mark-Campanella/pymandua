@@ -1,0 +1,24 @@
+---
+config:
+  look: handDrawn
+  theme: base
+---
+flowchart TD
+    A[Início: Instancia Driver] --> B[Instancia Gatherer driver]
+    B --> C[Instancia Crawler driver, gatherer, keywords]
+    C --> D[Chama crawl]
+    D --> E[Busca elementos <a> e <button> na página]
+    E --> F{"Texto combina com keywords (fuzzy match)?"}
+    F -->|Sim| G[Classifica elemento como link ou botão]
+    F -->|Não| E
+    G --> H{"Elemento é link?"}
+    H -->|Sim| I[Extrai href e visita nova página]
+    H -->|Não| J[Clica no botão e observa se há mudança de URL]
+    I --> K[Gatherer get_body_html]
+    J --> K[Gatherer get_body_html]
+    K --> L[Adiciona HTML coletado a html_pages]
+    L --> M[Retorna para página anterior]
+    M --> N{"Há mais elementos a visitar?"}
+    N -->|Sim| E
+    N -->|Não| O[Retorna lista de páginas HTML coletadas]
+    O --> P[Fim]

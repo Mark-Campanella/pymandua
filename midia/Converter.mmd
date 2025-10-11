@@ -1,0 +1,30 @@
+---
+config:
+  look: classic
+  theme: base
+---
+flowchart TD
+    A[HTML simplificado] --> B[Itera sobre elementos]
+    B --> C{Tipo de elemento?}
+    C -->|Texto puro| D[Adiciona direto ao Markdown]
+    C -->|Cabeçalho <h1>-<h6>| E[Converte para #, ##, ### ...]
+    C -->|Parágrafo <p>| F[Adiciona como bloco de texto]
+    C -->|Quebra de linha <br>| G[Nova linha]
+    C -->|Ênfase <b>/<strong>| H[**bold**]
+    C -->|Ênfase <i>/<em>| I[*italic*]
+    C -->|Link <a>| J[Link]
+    C -->|Lista <ul>/<ol>| K[Converte para lista - ou 1., 2., 3.]
+    C -->|Código <pre>/<code>| L[Bloco de código ``` ou `]
+    C -->|Tabela <table>| M[Markdown de tabela]
+    C -->|Outro| N[Processa filhos recursivamente]
+    D --> Z[Markdown final]
+    E --> Z
+    F --> Z
+    G --> Z
+    H --> Z
+    I --> Z
+    J --> Z
+    K --> Z
+    L --> Z
+    M --> Z
+    N --> Z

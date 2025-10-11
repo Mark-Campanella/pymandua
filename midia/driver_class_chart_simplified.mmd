@@ -1,0 +1,23 @@
+classDiagram
+    class Driver {
+        +user_options: Dict
+        +proxy: str
+        +user_profile: str
+        +_default_options(): ChromeOptions
+        +init(): ChromeWebDriver
+    }
+
+    class DriverUtils {
+        +driver: ChromeWebDriver
+        +wait: WebDriverWait
+        +click_element_by_selector(selector: str)
+        +find_element(selector: str): Optional[Any]
+        +random_clicks(selector: str, max_clicks: int)
+        +go_back()
+        +go_forward()
+        +wait_for_text(selector: str, text: str)
+        +wait_for_element(selector: str)
+    }
+
+    Driver --> ChromeWebDriver : cria
+    DriverUtils --> ChromeWebDriver : usa

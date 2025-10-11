@@ -1,0 +1,49 @@
+flowchart TD
+    %% ===========================
+    %% FLUXOGRAMA COMPACTO
+    %% ===========================
+
+    %% FUNÇÃO to_mkd
+    TM0["Início to_mkd"] --> TM1{"urls é string?"}
+    TM1 -->|Sim| TM2["urls = (urls)"]
+    TM1 -->|Não| TM2
+    TM2 --> TM3{"keywords é string?"}
+    TM3 -->|Sim| TM4["keywords = (keywords)"]
+    TM3 -->|Não| TM4
+    TM4 --> TM5["Inicializa driver e coleta HTML"]
+    TM5 --> TM6{"keywords fornecidos?"}
+    TM6 -->|Sim| TM7["Crawling e agregação de HTML"]
+    TM6 -->|Não| TM8["Usa HTML principal"]
+    TM7 --> TM9
+    TM8 --> TM9
+    TM9["Tratamento e limpeza do HTML"] --> TM10["Conversão para Markdown"]
+    TM10 --> TM11{"output_path fornecido?"}
+    TM11 -->|Sim| TM12["Usa output_path"]
+    TM11 -->|Não| TM12["Cria pasta output padrão"]
+    TM12 --> TM13["Salva arquivo .mkd"]
+    TM13 --> TM14["Fim to_mkd"]
+
+    %% FUNÇÃO start_rag_pipeline
+    RP0["Início start_rag_pipeline"] --> RP1["Carrega config"]
+    RP1 --> RP2["Substitui valores com argumentos"]
+    RP2 --> RP3{"source_directory existe?"}
+    RP3 -->|Não| RP4["Erro e finaliza"]
+    RP3 -->|Sim| RP5["Ingestão de Markdown"]
+    RP5 --> RP6["Lança UI do RAG"]
+    RP6 --> RP7["Fim start_rag_pipeline"]
+
+    %% Conexão entre funções
+    TM14 --> RP0
+
+    %% ===========================
+    %% ESTILOS
+    %% ===========================
+    classDef startend fill:#d1ecf1,stroke:#0c5460,stroke-width:2px;
+    classDef process fill:#e2f0cb,stroke:#5a8c00,stroke-width:1.5px;
+    classDef decision fill:#fff3cd,stroke:#b58b00,stroke-width:1.5px;
+    classDef output fill:#f8d7da,stroke:#721c24,stroke-width:2px;
+
+    class TM0,TM14,RP0,RP7 startend;
+    class TM2,TM4,TM5,TM7,TM8,TM9,TM10,TM12,TM13,RP1,RP2,RP5,RP6 process;
+    class TM1,TM3,TM6,TM11,RP3 decision;
+    class RP4 output;

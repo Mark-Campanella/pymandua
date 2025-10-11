@@ -11,7 +11,7 @@ from .treater       import Treater
 from .cleaner       import Cleaner
 from .crawler       import Crawler
 from .aggregator    import Aggregator
-from .converter     import HTMLToMarkdownConverter
+from .converter     import Converter
 from .ingest        import ingest_data, load_config
 from .app           import launch_app
 
@@ -116,7 +116,7 @@ def to_mkd(
     cleaned_html = cleaner.clean(treated_html)
 
     # 7) Convert to Markdown
-    converter = HTMLToMarkdownConverter()
+    converter = Converter()
     markdown = converter.convert(cleaned_html)
 
     # 8) Write out to disk
@@ -136,7 +136,7 @@ def to_mkd(
     with open(full_path, "w", encoding="utf-8") as f:
         f.write(markdown)
 
-    print(f"[html2mkd] Markdown file saved at: {full_path}")
+    print(f"[pymandua] Markdown file saved at: {full_path}")
     return markdown
 
 def start_rag_pipeline(
