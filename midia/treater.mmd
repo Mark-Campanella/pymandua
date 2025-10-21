@@ -1,0 +1,18 @@
+---
+config:
+  look: classic
+  theme: base
+---
+flowchart TD
+    A1[Início] --> A2[Recebe HTML]
+    A2 --> A3[Cria objeto BeautifulSoup]
+    A3 --> A4[Remove tags indesejadas script, style, svg, noscript, iframe]
+    A4 --> A5[Identifica o body ou usa o root se ausente]
+    A5 --> A6[Normaliza tabelas]
+    A6 --> A6a[Desencapsula thead, tbody, tfoot, colgroup]
+    A6a --> A6b[Remove linhas vazias ou sem texto]
+    A6b --> A6c[Desencapsula tags não permitidas dentro de tr]
+    A6c --> A7[Achata <div> e <span> aninhadas sem atributos]
+    A7 --> A8[Remove tags vazias: div, span, p, table]
+    A8 --> A9[Retorna HTML simplificado]
+    A9 --> A10[Fim]

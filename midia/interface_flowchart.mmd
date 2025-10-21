@@ -1,0 +1,77 @@
+flowchart TD
+    %% SEÇÃO 1 - FUNÇÃO to_mkd
+    subgraph SN1["Coleta_Navegacao"]
+        A0["Inicio to_mkd"] --> A1{"urls é string?"}
+        A1 -->|Sim| A2["urls = (urls)"]
+        A1 -->|Nao| A3{"keywords é string?"}
+        A3 -->|Sim| A4["keywords = (keywords)"]
+        A3 -->|Nao| A5["Inicializa driver"]
+        A4 --> A5
+
+        A5 --> A6["Cria DriverUtils(driver)"]
+        A6 --> A7["Cria lista all_html_fragments"]
+        A7 --> A8["Loop para cada URL"]
+        A8 --> A9["driver.get(url)"]
+        A9 --> A10["time.sleep(wait)"]
+        A10 --> A11["Gatherer(driver).get_body_html()"]
+        A11 --> A12{"keywords existem?"}
+        A12 -->|Sim| A13["Crawler e crawl"]
+        A13 --> A14["Aggregator.update_main_html()"]
+        A12 -->|Nao| A16["Usa raw_html_main"]
+        A14 --> A17["Adiciona HTML à lista"]
+        A16 --> A17
+        A17 --> A18["Fim do loop"]
+        A18 --> A19{"Erro durante crawling?"}
+        A19 -->|Sim| A20["print erro e raise"]
+        A19 -->|Nao| A21["driver.quit()"]
+        A20 --> A21
+    end
+
+    %% SEÇÃO 2 - Tratamento e Conversão
+    subgraph SN2["Tratamento_Conversao"]
+        A21 --> A22["Combina HTMLs"]
+        A22 --> A23["Treater.simplify_html()"]
+        A23 --> A24["Cleaner.clean()"]
+        A24 --> A25["HTMLToMarkdownConverter.convert()"]
+        A25 --> A26{"output_path fornecido?"}
+        A26 -->|Nao| A27["Cria pasta output"]
+        A26 -->|Sim| A28["Usa output_path"]
+        A27 --> A29["Gera nome arquivo timestamp"]
+        A28 --> A29
+        A29 --> A30["Salva arquivo .mkd"]
+        A30 --> A31["print caminho salvo"]
+        A31 --> A32["Retorna Markdown"]
+        A32 --> A33["Fim to_mkd"]
+    end
+
+    %% SEÇÃO 3 - Pipeline RAG
+    subgraph SN3["RAG_Pipeline"]
+        B0["Inicio start_rag_pipeline"] --> B1["print 'STARTING RAG PIPELINE'"]
+        B1 --> B2["config = load_config(config_path)"]
+        B2 --> B3["Substitui valores config com args"]
+        B3 --> B4{"source_directory existe?"}
+        B4 -->|Nao| B5["print erro e retorna"]
+        B4 -->|Sim| B6["print 'Ingesting Markdown'"]
+        B6 --> B7["ingest_data(config)"]
+        B7 --> B8["print 'Launching RAG UI'"]
+        B8 --> B9["launch_app(config)"]
+        B9 --> B10["print 'RAG PIPELINE COMPLETED'"]
+        B10 --> B11["Fim start_rag_pipeline"]
+    end
+
+    %% Conexão entre funções
+    A33 --> B0
+
+    %% ===========================
+    %% ESTILOS
+    %% ===========================
+    classDef startend fill:#d1ecf1,stroke:#0c5460,stroke-width:2px;
+    classDef process fill:#e2f0cb,stroke:#5a8c00,stroke-width:1.5px;
+    classDef decision fill:#fff3cd,stroke:#b58b00,stroke-width:1.5px;
+    classDef output fill:#f8d7da,stroke:#721c24,stroke-width:2px;
+
+    %% Atribuindo estilos
+    class A0,A33,B0,B11 startend;
+    class A2,A4,A5,A6,A7,A8,A9,A10,A11,A13,A14,A16,A17,A18,A20,A21,A22,A23,A24,A25,A27,A28,A29,A30,A31 process;
+    class A1,A3,A12,A19,A26,B4 decision;
+    class B1,B2,B3,B5,B6,B7,B8,B9,B10 output;

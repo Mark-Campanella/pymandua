@@ -4,7 +4,7 @@ from .treater       import Treater
 from .cleaner       import Cleaner
 from .crawler       import Crawler
 from .aggregator    import Aggregator
-from .converter     import HTMLToMarkdownConverter
+from .converter     import Converter
 from .ingest        import ingest_data, load_config
 from .app           import launch_app
 # Expose the to_mkd function at the package level:
@@ -18,7 +18,7 @@ __all__ = [
     "Cleaner",
     "Crawler",
     "Aggregator",
-    "HTMLToMarkdownConverter",
+    "Converter",
     "to_mkd",
     "start_rag_pipeline"
 ]

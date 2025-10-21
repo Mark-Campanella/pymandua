@@ -1,0 +1,37 @@
+flowchart TD
+    A[Início] --> B[Carregar config.yaml]
+    B --> C[Identificar arquivos Markdown .md, .mkd, .markdown, .mdown]
+    C --> D[Carregar arquivos load_files_concurrently]
+    D --> E[Split em chunks RecursiveCharacterTextSplitter]
+    E --> F[Preparar configuração de modelos]
+    F --> G{Selecionar provedor LLM}
+    G -->|Ollama| G1[Instanciar LLM via Ollama]
+    G -->|OpenAI| G2[Instanciar LLM via OpenAI]
+    G -->|Gemini| G3[Instanciar LLM via Gemini]
+    F --> H{Selecionar provedor Embeddings}
+    H -->|Ollama| H1[Instanciar Embeddings via OllamaEmbeddings]
+    H -->|OpenAI| H2[Instanciar Embeddings via OpenAIEmbeddings]
+    H -->|Gemini| H3[Instanciar Embeddings via GoogleGenerativeAIEmbeddings]
+    G1 --> I
+    G2 --> I
+    G3 --> I
+    H1 --> J
+    H2 --> J
+    H3 --> J
+
+    subgraph MODELS["Modelos"]
+        I[LLM inicializado]
+        J[Embeddings brutos inicializados]
+    end
+
+    J --> K[Aplicar camada de cache CacheBackedEmbeddings + LocalFileStore]
+    K --> L[Embeddings com cache prontos]
+    I --> M[Logs de inicialização provider/model]
+    L --> N[Chamar get_vector_storeconfig, texts, embeddings]
+    N --> O{Vector store existente?}
+    O -->|Sim| O1[Carregar Chroma a partir de persistência]
+    O -->|Não| O2[Criar Chroma.from_documents e persistir]
+    O1 --> P[Persistência / Reuso confirmados]
+    O2 --> P
+    P --> Q[Vector store pronto e persistido]
+    Q --> R[Fim]

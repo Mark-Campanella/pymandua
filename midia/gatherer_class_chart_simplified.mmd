@@ -1,0 +1,17 @@
+classDiagram
+    class Gatherer {
+        +driver: WebDriver
+        +wait: WebDriverWait
+        +get_dom_html(): str
+        +get_body_html(): str
+        +get_page_title(): str
+        +get_element(selector: str): Optional[str]
+        +get_elements(selector: str): List[str]
+        +get_image_sources(): List[str]
+        +get_video_sources(): List[str]
+        +get_links(): List[str]
+        +get_text_by_class(class_name: str): List[str]
+        +get_article_text(): str
+    }
+
+    Gatherer --> WebDriver : usa

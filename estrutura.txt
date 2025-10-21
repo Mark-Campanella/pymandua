@@ -1,0 +1,26 @@
+├── 📁 midia
+│   ├── 📄 flowchart.png
+│   ├── 📄 Pymandua.png
+├── 📁 pymandua
+│   ├── 📄 aggregator.py
+│   ├── 📄 app.py
+│   ├── 📄 cleaner.py
+│   ├── 📄 converter.py
+│   ├── 📄 crawler.py
+│   ├── 📄 driver.py
+│   ├── 📄 gatherer.py
+│   ├── 📄 ingest.py
+│   ├── 📄 interface.py
+│   ├── 📄 provider_loader.py
+│   ├── 📄 query.py
+│   ├── 📄 treater.py
+│   ├── 📄 __init__.py
+│   ├── 📄 __main__.py
+├── 📄 .gitattributes
+├── 📄 .gitignore
+├── 📄 estrutura.txt
+├── 📄 LICENSE
+├── 📄 pyproject.toml
+├── 📄 README.md
+├── 📄 requirements.txt
+├── 📄 setup.py

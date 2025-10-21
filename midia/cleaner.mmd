@@ -1,0 +1,15 @@
+---
+config:
+  look: classic
+  theme: base
+---
+flowchart TD
+    A1[Início] --> A2[Recebe HTML bruto]
+    A2 --> A3[Cria objeto BeautifulSoup]
+    A3 --> A4[Remove a seção <head> e metadados]
+    A4 --> A5[Remove comentários HTML]
+    A5 --> A6[Remove tags desnecessárias:<br>script, style, svg, noscript, iframe, header, footer, nav, form, input, button]
+    A6 --> A7[Filtra atributos válidos: class, href, src, alt, title]
+    A7 --> A8[Normaliza espaços e quebras de linha]
+    A8 --> A9[Gera HTML limpo e padronizado]
+    A9 --> A10[Fim]

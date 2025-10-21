@@ -1,0 +1,17 @@
+---
+config:
+  theme: base
+  look: classic
+---
+flowchart TD
+    A1[HTML bruto] --> B1[Cleaner]
+    B1 --> B2[Remove <head>, metadados e comentários]
+    B2 --> B3[Remove tags desnecessárias:<br>script, style, svg, noscript, iframe, header, footer, nav, form, input, button]
+    B3 --> B4[Filtra atributos válidos:<br>class, href, src, alt, title]
+    B4 --> B5[Normaliza espaços e quebras de linha]
+    B5 --> C1[Treated HTML limpo]
+    C1 --> D1[Treater]
+    D1 --> D2[Remove scripts, styles, svg, noscript, iframe e tags vazias]
+    D2 --> D3[Flatten nested divs e spans sem atributos]
+    D3 --> D4[Normaliza tabelas:<br>unwrapping thead, tbody, tfoot, colgroup; remove linhas vazias]
+    D4 --> D5[HTML final simplificado]
