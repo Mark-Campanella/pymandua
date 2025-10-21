@@ -1,0 +1,28 @@
+---
+config:
+  theme: base
+  look: classic
+---
+flowchart TD
+    A[Início] --> B[setup_qa_chainconfig]
+    subgraph Configuração da Cadeia RAG
+        B --> C[get_llm_and_embeddingsconfig]
+        C --> D[Carrega modelos de LLM e Embeddings]
+        D --> E{Vector Store ativa é Chroma?}
+        E -->|Sim| F[Inicializa cliente ChromaDB com persist_directory]
+        E -->|Não| G[Erro: Vetor Store não implementado]
+        F --> H[Cria Retriever a partir do VectorDB]
+        H --> I[Define RAG Prompt Template com ChatPromptTemplate]
+        I --> J[Constrói cadeia LCEL Retriever → Prompt → LLM → Parser]
+        J --> K[Retorna qa_chain, llm, retriever]
+    end
+    K --> L[launch_appconfig]
+    subgraph Interface Gradio
+        L --> M[Define função simple_qa_with_chainquery]
+        L --> N[Define função generate_table_with_chainquery, headers]
+        N --> O[Define validate_table_markdown]
+        O --> P[Cria interface Gradio Tabs: Q&A e Table Generator]
+        P --> Q[Configura botões e callbacks]
+        Q --> R[demo.launchinbrowser=True]
+    end
+    R --> S[Fim]
