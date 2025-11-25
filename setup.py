@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="pymandua",
-    version="0.1.2",
+    version="0.2.2",
     author="Marcos Henrique Maimoni Campanella",
     author_email="mhmcamp@gmail.com",
     description="Uma biblioteca para scraping com lógica fuzzy e conversão de HTML e conteúdos ao seu redor, lidando com reatividade do javascript para Markdown focado em LLMs. Adicionado com um pipeline RAG.",
